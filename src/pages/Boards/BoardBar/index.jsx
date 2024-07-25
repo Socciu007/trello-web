@@ -7,7 +7,6 @@ import BoltIcon from '@mui/icons-material/Bolt'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import Avatar from '@mui/material/Avatar'
 import AvatarGroup from '@mui/material/AvatarGroup'
-import { alpha } from '@mui/material/styles'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
@@ -57,13 +56,6 @@ function BoardBar() {
         />
         <Chip
           sx={MENU_STYLES}
-          icon={<VpnLockIcon />}
-          label="Add To Google Driver"
-          clickable
-          // onClick={() => {}}
-        />
-        <Chip
-          sx={MENU_STYLES}
           icon={<AddToDriveIcon />}
           label="Add To Google Drive"
           clickable
@@ -102,25 +94,28 @@ function BoardBar() {
               width: 30,
               height: 30,
               fontSize: 16,
-              border: 'none'
+              border: 'none',
+              color: '#fff',
+              cursor: 'pointer',
+              '&:first-of-type': { bgcolor: '#a4b0be' }
             }
           }}>
-          <Tooltip title='ManhTien'>
+          <Tooltip title="Money">
             <Avatar
               alt="avt-1"
               src="/static/images/avatar/1.jpg" />
           </Tooltip>
-          <Tooltip title='ManhTien'>
+          <Tooltip title="Money">
             <Avatar
               alt="avt-1"
               src="/static/images/avatar/2.jpg" />
           </Tooltip>
-          <Tooltip title='ManhTien'>
+          <Tooltip title="Money">
             <Avatar
               alt="avt-1"
               src="/static/images/avatar/3.jpg" />
           </Tooltip>
-          <Tooltip title='ManhTien'>
+          <Tooltip title="Money">
             <Avatar
               alt="avt-1"
               src="/static/images/avatar/3.jpg" />
