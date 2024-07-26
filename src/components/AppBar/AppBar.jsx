@@ -1,4 +1,4 @@
-import ModeSelect from '@/components/ModeSelect'
+import ModeSelect from '@/components/ModeSelect/ModeSelect'
 import Box from '@mui/material/Box'
 import AppsIcon from '@mui/icons-material/Apps'
 import { ReactComponent as TrelloIcon } from '@/assets/icons/trello.svg'
@@ -32,6 +32,7 @@ function AppBar() {
       justifyContent: 'space-between',
       gap: 2,
       overflowX: 'auto',
+      '&::-webkit-scrollbar-track': { m: 2 },
       bgcolor: (theme) => theme.palette.mode === 'dark' ? '#2c3e50' : '#1565c0'
     }}>
       <Box sx={{ display:'flex', alignItems: 'center', gap: 2 }}>
