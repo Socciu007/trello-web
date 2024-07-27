@@ -8,30 +8,37 @@ import GroupIcon from '@mui/icons-material/Group'
 import CommentIcon from '@mui/icons-material/Comment'
 import AttachmentIcon from '@mui/icons-material/Attachment'
 
-function Card({ hideMedia }) {
+function Card({ card }) {
+
+  const showAction = () => {
+    return !!card?.memberIds?.length || !!card?.comments?.length || !!card?.attachments?.length
+  }
+
   return (
     <MuiCard sx={{
       boxShadow: '0 1px 1px rgba(0, 0, 0, 0.2)',
       cursor: 'pointer',
       overflow: 'unset'
     }}>
-      {!hideMedia && (
+      {card?.cover && (
         <CardMedia
           sx={{ height: 140 }}
-          image="https://images.pexels.com/photos/1933239/pexels-photo-1933239.jpeg?auto=compress&cs=tinysrgb&w=600"
+          image={card.cover}
           title="card image"
         />
       )}
+
       <CardContent sx={{ p: 1.5, '&:last-child': { p: 1.5 } }}>
-        <Typography>Lizard</Typography>
+        <Typography>{card?.title}</Typography>
       </CardContent>
-      {!hideMedia && (
+
+      {showAction() &&
         <CardActions sx={{ p: '0 4px 8px 4px' }}>
-          <Button size="small" startIcon={<GroupIcon/>}>20</Button>
-          <Button size="small" startIcon={<CommentIcon/>}>15</Button>
-          <Button size="small" startIcon={<AttachmentIcon/>}>10</Button>
+          {!!card?.memberIds?.length && <Button size="small" startIcon={<GroupIcon/>}>{card.memberIds.length}</Button>}
+          {!!card?.comments?.length && <Button size="small" startIcon={<CommentIcon/>}>{card.comments.length}</Button>}
+          {!!card?.attachments?.length && <Button size="small" startIcon={<AttachmentIcon/>}>{card.attachments.length}</Button>}
         </CardActions>
-      )}
+      }
     </MuiCard>
   )
 }

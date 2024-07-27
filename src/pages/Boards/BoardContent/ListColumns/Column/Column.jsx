@@ -18,7 +18,7 @@ import { useState } from 'react'
 import Box from '@mui/material/Box'
 import ListCards from './ListCards/ListCards'
 
-function Column() {
+function Column({ column }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const open = Boolean(anchorEl)
   const handleClick = (e) => {
@@ -51,7 +51,7 @@ function Column() {
           cursor: 'pointer',
           fontSize: '1rem'
         }}>
-          Column Title
+          {column?.title}
         </Typography>
         <Box>
           <ExpandMoreIcon
@@ -100,7 +100,7 @@ function Column() {
         </Box>
       </Box>
       {/* list cards */}
-      <ListCards/>
+      <ListCards cards={column?.cards}/>
       {/* Column footer */}
       <Box sx={{
         display: 'flex',

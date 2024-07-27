@@ -10,6 +10,7 @@ import AvatarGroup from '@mui/material/AvatarGroup'
 import Tooltip from '@mui/material/Tooltip'
 import Button from '@mui/material/Button'
 import PersonAddIcon from '@mui/icons-material/PersonAdd'
+import { capitalizeFirstLetter } from '@/utils'
 
 const MENU_STYLES = {
   color: '#fff',
@@ -25,7 +26,7 @@ const MENU_STYLES = {
   }
 }
 
-function BoardBar() {
+function BoardBar({ board }) {
   return (
     <Box sx={{
       display: 'flex',
@@ -44,14 +45,14 @@ function BoardBar() {
         <Chip
           sx={MENU_STYLES}
           icon={<DashboardIcon />}
-          label="Board Name"
+          label={board?.title}
           clickable
           // onClick={() => {}}
         />
         <Chip
           sx={MENU_STYLES}
           icon={<VpnLockIcon />}
-          label="Public/Private Workspace"
+          label={capitalizeFirstLetter(board.type)}
           clickable
           // onClick={() => {}}
         />
@@ -100,7 +101,16 @@ function BoardBar() {
               cursor: 'pointer',
               '&:first-of-type': { bgcolor: '#a4b0be' }
             }
-          }}>
+          }}
+        >
+          {board?.memberIds?.map((member, idx) => (
+            <Tooltip title="Money" key={idx}>
+              <Avatar
+                alt="avt-1"
+                src="/static/images/avatar/1.jpg"
+              />
+            </Tooltip>
+          ))}
           <Tooltip title="Money">
             <Avatar
               alt="avt-1"
