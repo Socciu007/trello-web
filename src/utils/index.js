@@ -4,4 +4,12 @@ const capitalizeFirstLetter = (str) => {
   return `${str.charAt(0).toUpperCase()}${str.slice(1)}`
 }
 
-export { capitalizeFirstLetter }
+// Sort
+const mapOrder = (originalArray, orderArray, key) => {
+  if (!originalArray || !orderArray || !key) return []
+  return [...originalArray].sort(
+    (a, b) => orderArray.indexOf(a[key]) - orderArray.indexOf(b[key])
+  )
+}
+
+export { capitalizeFirstLetter, mapOrder }
