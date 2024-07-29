@@ -1,7 +1,7 @@
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
 import { mapOrder } from '@/utils'
-import { defaultDropAnimationSideEffects, DndContext, DragOverlay, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
+import { closestCorners, defaultDropAnimationSideEffects, DndContext, DragOverlay, MouseSensor, PointerSensor, TouchSensor, useSensor, useSensors } from '@dnd-kit/core'
 import { useEffect, useState } from 'react'
 import { arrayMove } from '@dnd-kit/sortable'
 import Column from './ListColumns/Column/Column'
@@ -45,7 +45,6 @@ function BoardContent({ board }) {
     const { active, over } = e
 
     if (activeType === ACTIVE_TYPE.CARD) {
-      console.log('Hanh dong keo card là dung')
       return
     }
 
@@ -96,30 +95,29 @@ function BoardContent({ board }) {
         newCardIdx = overCardIdx >= 0 ? overCardIdx + modifier : overColumn?.cards?.length + 1
         // Clone array old orderedColumnsState to handle data
         const nextColumn = cloneDeep(prevColumns)
-        const nextActiveColumnn = nextColumn.find(column => column._id === activeColumn._id)
+        const nextActiveColumn = nextColumn.find(column => column._id === activeColumn._id)
         const nextOverColumn = nextColumn.find(column => column._id === overColumn._id)
-        console.log(nextActiveColumnn)
 
-        if (nextActiveColumnn) {
+        if (nextActiveColumn) {
           // Remove active card in old column
-          nextActiveColumnn.cards = nextActiveColumnn?.card?.filter(card => card._id !== activeDraggingCardId)
+          nextActiveColumn.cards = nextActiveColumn?.cards?.filter(card => card._id !== activeDraggingCardId)
           // Update array cardOrderIds
-          nextActiveColumnn.cardOrderIds = nextActiveColumnn?.card?.map(card => card._id)
+          nextActiveColumn.cardOrderIds = nextActiveColumn?.cards?.map(card => card._id)
         }
 
         // Check dragging card has in over column
         if (nextOverColumn) {
           // Remove over card in new column
-          nextOverColumn.cards = nextOverColumn?.card?.filter(card => card._id !== activeDraggingCardId)
+          nextOverColumn.cards = nextOverColumn?.cards?.filter(card => card._id !== activeDraggingCardId)
 
           // Add card to over column
-          nextOverColumn.cards = nextOverColumn?.card?.toSpliced(newCardIdx, 0, activeDraggingCardData)
+          nextOverColumn.cards = nextOverColumn?.cards?.toSpliced(newCardIdx, 0, activeDraggingCardData)
 
           // Update array cardOrderIds
-          nextOverColumn.cardOrderIds = nextOverColumn?.card?.map(card => card._id)
+          nextOverColumn.cardOrderIds = nextOverColumn?.cards?.map(card => card._id)
         }
 
-        return [...prevColumns]
+        return nextColumn
       })
     }
   }
@@ -142,6 +140,7 @@ function BoardContent({ board }) {
       onDragOver={handleDragOver}
       onDragEnd={handleDragEnd}
       sensors={sensors}
+      collisionDetection={closestCorners} //collision detection algorithms
     >
       <Box sx={{
         width: '100%',
