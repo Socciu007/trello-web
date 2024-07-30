@@ -12,4 +12,14 @@ const mapOrder = (originalArray, orderArray, key) => {
   )
 }
 
-export { capitalizeFirstLetter, mapOrder }
+// Function create card fake to placeholder in column is empty
+const generatePlaceholderCard = (column) => {
+  return {
+    _id: `${column._id}-placeholder-card`,
+    boardId: column.boardId,
+    columnId: column._id,
+    FE_PlaceholderCard: true
+  }
+}
+
+export { capitalizeFirstLetter, mapOrder, generatePlaceholderCard }
