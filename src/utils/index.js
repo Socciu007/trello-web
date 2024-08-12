@@ -22,4 +22,6 @@ const generatePlaceholderCard = (column) => {
   }
 }
 
-export { capitalizeFirstLetter, mapOrder, generatePlaceholderCard }
+const API_ROOT = 'http://localhost:6767/v1'
+
+export { capitalizeFirstLetter, mapOrder, generatePlaceholderCard, API_ROOT }
