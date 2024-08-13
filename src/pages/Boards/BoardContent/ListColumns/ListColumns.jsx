@@ -15,7 +15,6 @@ function ListColumns({ columns }) {
   const handleAddNewColumn = () => {
     if (!newColumnTitle) return
 
-    console.log(newColumnTitle)
     // Call api
 
     // Close add new column and clear column title

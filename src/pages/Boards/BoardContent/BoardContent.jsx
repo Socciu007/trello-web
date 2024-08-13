@@ -8,11 +8,8 @@ import {
   DndContext,
   DragOverlay,
   getFirstCollision,
-  MouseSensor,
-  PointerSensor,
   pointerWithin,
   rectIntersection,
-  TouchSensor,
   useSensor,
   useSensors
 } from '@dnd-kit/core'
@@ -21,6 +18,7 @@ import { arrayMove } from '@dnd-kit/sortable'
 import Column from './ListColumns/Column/Column'
 import Card from './ListColumns/Column/ListCards/Card/Card'
 import { cloneDeep, isEmpty } from 'lodash'
+import { MouseSensor, TouchSensor } from '@/customLibraries/DndKitSensors'
 
 const ACTIVE_TYPE = {
   CARD: 'card',

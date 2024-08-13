@@ -182,6 +182,7 @@ function Column({ column }) {
                 value={newCardTitle}
                 onChange={(e) => setNewCardTitle(e.target.value)}
                 autoFocus
+                data-no-dnd="true"
                 sx={{
                   '& label': { color: 'text.primary' },
                   '& input': {
@@ -201,6 +202,7 @@ function Column({ column }) {
               />
               <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
                 <Button variant='contained' color='success' size='small'
+                  data-no-dnd="true"
                   onClick={handleAddNewCard}
                   sx={{
                     boxShadow: 'none',
