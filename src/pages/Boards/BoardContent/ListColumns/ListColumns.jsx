@@ -1,15 +1,27 @@
-
 import Box from '@mui/material/Box'
 import Column from './Column/Column'
 import NoteAddIcon from '@mui/icons-material/NoteAdd'
 import Button from '@mui/material/Button'
+import CloseIcon from '@mui/icons-material/Close'
+import TextField from '@mui/material/TextField'
 import { SortableContext, horizontalListSortingStrategy } from '@dnd-kit/sortable'
 import { useState } from 'react'
-import { TextField } from '@mui/material'
 
 function ListColumns({ columns }) {
   const [openNewColumnForm, setOpenNewColumnForm] = useState(false)
+  const [newColumnTitle, setNewColumnTitle] = useState('')
   const handleOpenNewColumnForm = () => setOpenNewColumnForm(!openNewColumnForm)
+
+  const handleAddNewColumn = () => {
+    if (!newColumnTitle) return
+
+    console.log(newColumnTitle)
+    // Call api
+
+    // Close add new column and clear column title
+    handleOpenNewColumnForm()
+    setNewColumnTitle('')
+  }
   return (
     <SortableContext items={columns?.map(c => c._id)} strategy={horizontalListSortingStrategy}>
       <Box sx={{
@@ -43,24 +55,27 @@ function ListColumns({ columns }) {
           </Box>
           :
           <Box sx={{
-            minWidth: '200px',
-            maxWidth: '200px',
+            minWidth: '250px',
+            maxWidth: '250px',
             mx: 2,
             p: 1,
             borderRadius: '6px',
             height: 'fit-content',
-            bgcolor: '#ffffff3d'
+            bgcolor: '#ffffff3d',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: 1
           }}>
             <TextField
               id="outlined-search"
-              label="Input new column..."
+              label="Input column title..."
               type="text"
               size='small'
               variant='outlined'
+              value={newColumnTitle}
+              onChange={(e) => setNewColumnTitle(e.target.value)}
               autoFocus
               sx={{
-                minWidth: 120,
-                maxWidth: 200,
                 '& label': { color: '#fff' },
                 '& input': { color: '#fff' },
                 '& label.Mui-focused': { color: '#fff' },
@@ -71,6 +86,28 @@ function ListColumns({ columns }) {
                 }
               }}
             />
+            <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+              <Button variant='contained' color='success' size='small'
+                onClick={handleAddNewColumn}
+                sx={{
+                  boxShadow: 'none',
+                  border: '0.5px solid',
+                  borderColor: (theme) => theme.palette.success.main,
+                  '&:hover': { bgcolor: (theme) => theme.palette.success.main }
+                }}
+              >
+                Add column
+              </Button>
+              <CloseIcon
+                sx={{
+                  cursor: 'pointer',
+                  color: '#fff',
+                  '&:hover': { color: (theme) => theme.palette.warning.light }
+                }}
+                fontSize='small'
+                onClick={handleOpenNewColumnForm}
+              />
+            </Box>
           </Box>
         }
       </Box>
