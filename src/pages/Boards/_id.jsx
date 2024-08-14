@@ -8,23 +8,36 @@ import { useEffect, useState } from 'react'
 import { services } from '@/services/service'
 
 function Board() {
-  const [boardData, setBoardData] = useState(null)
+  const [board, setBoard] = useState(null)
+
   // Fetch board data when component mounts
-  const getDetailBoard = async () => {
-    const res = await services.getBoard('66b4dabf5b40ff7cb1edb1f6')
-    setBoardData(res?.data)
+  const fetchGetBoard = async () => {
+    try {
+      const res = await services.getBoard('66b4dabf5b40ff7cb1edb1f6')
+      setBoard(res?.data)
+    } catch (error) {
+      console.error('Failed to fetch board data:', error)
+    }
   }
 
   useEffect(() => {
-    getDetailBoard()
-  }, [])
-  console.log(boardData)
+    fetchGetBoard();
+  }, []);
+
+  console.log('test', board)
+
+  const createdColumn = async (newColumn) => {
+    const res = await services.createColumn({ ...newColumn, board: board._id })
+  }
 
   return (
     <Container disableGutters maxWidth={false} sx={{ height: '100vh', backgroundColor: 'primary' }}>
       <AppBar />
-      <BoardBar board={mockData?.board} />
-      <BoardContent board={mockData?.board} />
+      <BoardBar board={board} />
+      <BoardContent
+        board={board}
+        createdColumn={createdColumn}
+      />
     </Container>
   )
 }

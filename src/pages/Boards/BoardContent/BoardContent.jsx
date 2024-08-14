@@ -25,7 +25,7 @@ const ACTIVE_TYPE = {
   COLUMN: 'column'
 }
 
-function BoardContent({ board }) {
+function BoardContent({ board, createdColumn }) {
   const [orderedColumn, setOrderColumn] = useState([])
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -229,7 +229,7 @@ function BoardContent({ board }) {
   }
 
   // Custom collision detection algorithm
-  const collisionDetectionStrategy = useCallback((args) => { 
+  const collisionDetectionStrategy = useCallback((args) => {
     if (activeType === ACTIVE_TYPE.COLUMN) {
       return closestCorners({ ...args })
     }
@@ -241,7 +241,7 @@ function BoardContent({ board }) {
     // Collision detection algorithms
     const intersections = !!pointerIntersections?.length ? pointerIntersections : rectIntersection(args)
 
-    // Find the first collision in itersections (closest to the pointer)
+    // Find the first collision in intersections (closest to the pointer)
     let overId = getFirstCollision(intersections, 'id')
 
     if (overId) {
@@ -277,7 +277,10 @@ function BoardContent({ board }) {
         height: (theme) => (theme.trello.boardContentHeight),
         p: '10px 0'
       }}>
-        <ListColumns columns={orderedColumn} />
+        <ListColumns
+          columns={orderedColumn}
+          createdColumn={createdColumn}
+        />
         <DragOverlay dropAnimation={dropAnimation}>
           {(activeId && activeType === ACTIVE_TYPE.COLUMN) ? (
             <Column column={activeDataCurrent}/>

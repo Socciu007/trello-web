@@ -22,6 +22,7 @@ import ListCards from './ListCards/ListCards'
 import { mapOrder } from '@/utils'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
+import { toast } from 'react-toastify'
 
 function Column({ column }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -57,7 +58,7 @@ function Column({ column }) {
 
   // handle add new card
   const handleAddNewCard = () => {
-    if (!newCardTitle) return
+    if (!newCardTitle) toast.warn('Please add card title...')
 
     // Call api add new card
     // Close add new card and clear text input card title
@@ -159,7 +160,7 @@ function Column({ column }) {
                 alignItems: 'center'
               }}
             >
-              <Button onClick={handleOpenAddCard} startIcon={<AddCardIcon/>}>Add new card</Button>
+              <Button data-no-dnd="true" onClick={handleOpenAddCard} startIcon={<AddCardIcon/>}>Add new card</Button>
               <Tooltip title="Drag to move">
                 <DragHandleOutlinedIcon sx={{ cursor: 'pointer' }}/>
               </Tooltip>
