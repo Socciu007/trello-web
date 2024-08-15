@@ -25,7 +25,7 @@ const ACTIVE_TYPE = {
   COLUMN: 'column'
 }
 
-function BoardContent({ board, createdColumn }) {
+function BoardContent({ board, createdColumn, createdCard }) {
   const [orderedColumn, setOrderColumn] = useState([])
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -280,6 +280,7 @@ function BoardContent({ board, createdColumn }) {
         <ListColumns
           columns={orderedColumn}
           createdColumn={createdColumn}
+          createdCard={createdCard}
         />
         <DragOverlay dropAnimation={dropAnimation}>
           {(activeId && activeType === ACTIVE_TYPE.COLUMN) ? (

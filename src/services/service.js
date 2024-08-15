@@ -9,6 +9,8 @@ const getBoard = async (id) => {
 
 const createColumn = async (newColumn) => {
   const response = await axios.post(`${API_ROOT}/v1/columns`, newColumn)
+  console.log('aa', response)
+
   return response.data
 }
 

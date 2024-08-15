@@ -6,6 +6,7 @@ import BoardContent from './BoardContent/BoardContent'
 import { mockData } from '@/apis/mock-data'
 import { useEffect, useState } from 'react'
 import { services } from '@/services/service'
+import { toast } from 'react-toastify'
 
 function Board() {
   const [board, setBoard] = useState(null)
@@ -21,13 +22,33 @@ function Board() {
   }
 
   useEffect(() => {
-    fetchGetBoard();
-  }, []);
+    fetchGetBoard()
+  }, [])
 
-  console.log('test', board)
-
+  // Create new column for board
   const createdColumn = async (newColumn) => {
-    const res = await services.createColumn({ ...newColumn, board: board._id })
+    const res = await services.createColumn({ ...newColumn, boardId: board._id })
+    console.log('column', res)
+    // Update set board after create new column
+    if (res?.statusCode === 201) {
+      toast.success(res?.message)
+      await fetchGetBoard()
+    } else {
+      toast.error(res?.message)
+    }
+  }
+
+  // Create new card for column of board
+  const createdCard = async (newCard) => {
+    const res = await services.createCard({ ...newCard, boardId: board._id })
+
+    // Update set board after create new card
+    if (res?.statusCode === 201) {
+      toast.success(res?.message)
+      await fetchGetBoard()
+    } else {
+      toast.error(res?.message)
+    }
   }
 
   return (
@@ -37,6 +58,7 @@ function Board() {
       <BoardContent
         board={board}
         createdColumn={createdColumn}
+        createdCard={createdCard}
       />
     </Container>
   )
