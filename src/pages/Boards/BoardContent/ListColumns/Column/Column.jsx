@@ -19,7 +19,7 @@ import Tooltip from '@mui/material/Tooltip'
 import { useState } from 'react'
 import Box from '@mui/material/Box'
 import ListCards from './ListCards/ListCards'
-import { mapOrder } from '@/utils'
+// import { mapOrder } from '@/utils'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
@@ -51,7 +51,7 @@ function Column({ column, createdCard }) {
   }
 
   // Sorting cards
-  const orderedCards = mapOrder(column?.cards, column?.cardOrderIds, '_id')
+  const orderedCards = column?.cards
 
   // handle open/close add new card
   const handleOpenAddCard = () => setOpenNewCard(!openNewCard)

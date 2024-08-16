@@ -1,6 +1,6 @@
 import Box from '@mui/material/Box'
 import ListColumns from './ListColumns/ListColumns'
-import { generatePlaceholderCard, mapOrder } from '@/utils'
+import { generatePlaceholderCard } from '@/utils'
 import {
   closestCenter,
   closestCorners,
@@ -25,7 +25,7 @@ const ACTIVE_TYPE = {
   COLUMN: 'column'
 }
 
-function BoardContent({ board, createdColumn, createdCard }) {
+function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCardInSameColumn }) {
   const [orderedColumn, setOrderColumn] = useState([])
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -47,7 +47,7 @@ function BoardContent({ board, createdColumn, createdCard }) {
   const sensors = useSensors(mouseSensor, touchSensor)
 
   useEffect(() => {
-    setOrderColumn(mapOrder(board?.columns, board?.columnOrderIds, '_id'))
+    setOrderColumn(board?.columns)
   }, [board])
 
   // Find column by cardId
@@ -150,6 +150,7 @@ function BoardContent({ board, createdColumn, createdCard }) {
         const newCardIdx = overColumn?.cards?.findIndex(c => c._id === overCardId)
         // swap elements of cards after finished drag card
         const orderedDragCards = arrayMove(oldDataInColumn?.cards, oldCardIdx, newCardIdx)
+        const orderedDragCardsIds = orderedDragCards?.map(card => card._id)
 
         setOrderColumn(prevColumn => {
           const nextColumn = cloneDeep(prevColumn)
@@ -159,10 +160,12 @@ function BoardContent({ board, createdColumn, createdCard }) {
 
           // Update cards and cardOrderIds in target column
           targetColumn.cards = orderedDragCards
-          targetColumn.cardOrderIds = orderedDragCards?.map(card => card._id)
+          targetColumn.cardOrderIds = orderedDragCardsIds
 
           return nextColumn
         })
+
+        movedCardInSameColumn(orderedDragCards, orderedDragCardsIds, oldDataInColumn._id)
       }
     }
 
@@ -172,8 +175,11 @@ function BoardContent({ board, createdColumn, createdCard }) {
       // get new index of orderedColumn
       const newColumnIdx = orderedColumn.findIndex(c => c._id === over.id)
       // swap element of column after finished drag column
-      const orderedDragColumn = arrayMove(orderedColumn, oldColumnIdx, newColumnIdx)
-      setOrderColumn(orderedDragColumn)
+      const dndOrderedDragColumn = arrayMove(orderedColumn, oldColumnIdx, newColumnIdx)
+      // Update state to avoid delay and flickering
+      setOrderColumn(dndOrderedDragColumn)
+
+      movedColumn(dndOrderedDragColumn)
     }
 
     setActiveId(null)
