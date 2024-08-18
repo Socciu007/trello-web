@@ -25,7 +25,14 @@ const ACTIVE_TYPE = {
   COLUMN: 'column'
 }
 
-function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCardInSameColumn }) {
+function BoardContent({
+  board,
+  createdColumn,
+  createdCard,
+  movedColumn,
+  movedCardInSameColumn,
+  movedCardInDifferentColumn
+}) {
   const [orderedColumn, setOrderColumn] = useState([])
   // const pointerSensor = useSensor(PointerSensor, {
   //   activationConstraint: { distance: 10 }
@@ -63,7 +70,8 @@ function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCar
     over,
     activeColumn,
     activeDraggingCardId,
-    activeDraggingCardData
+    activeDraggingCardData,
+    triggerFrom
   ) => {
     setOrderColumn(prevColumns => {
       const overCardIdx = overColumn?.cards?.findIndex(c => c._id === overCardId)
@@ -115,6 +123,16 @@ function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCar
         nextOverColumn.cardOrderIds = nextOverColumn?.cards?.map(card => card._id)
       }
 
+      // After handleDragEnd is ended, call API update columns and card
+      if (triggerFrom === 'handleDragEnd') {
+        movedCardInDifferentColumn(
+          activeDraggingCardId,
+          oldDataInColumn._id,
+          nextOverColumn._id,
+          nextColumn
+        )
+      }
+
       return nextColumn
     })
   }
@@ -140,7 +158,8 @@ function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCar
           over,
           activeColumn,
           activeDraggingCardId,
-          activeDraggingCardData
+          activeDraggingCardData,
+          'handleDragEnd'
         )
       } else {
         // Action drag card in a column
@@ -212,7 +231,8 @@ function BoardContent({ board, createdColumn, createdCard, movedColumn, movedCar
         over,
         activeColumn,
         activeDraggingCardId,
-        activeDraggingCardData
+        activeDraggingCardData,
+        'handleDragOver'
       )
     }
   }

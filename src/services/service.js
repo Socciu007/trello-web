@@ -48,10 +48,21 @@ const createCard = async (newCard) => {
     return error.message
   }
 }
+
+const updateDataMoveCard = async (updateData) => {
+  try {
+    const response = await axios.put(`${API_ROOT}/v1/boards/support/moving_card`, updateData)
+    return response.data
+  } catch (error) {
+    return error.message
+  }
+}
+
 export const services = {
   getBoard,
   createColumn,
   createCard,
   updateBoard,
-  updateColumn
+  updateColumn,
+  updateDataMoveCard
 }

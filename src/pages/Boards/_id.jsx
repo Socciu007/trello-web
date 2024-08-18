@@ -89,8 +89,32 @@ function Board() {
     }
     setBoard(newColumn)
 
-    // Update card position after move card in the same column
+    // Update card position BE after move card in the same column
     await services.updateColumn(columnId, { cardOrderIds: orderedDragCardsIds })
+  }
+
+  // Update card position of two column after move card in the different column in the ended
+  const movedCardInDifferentColumn = async (currentCardId, prevColumnId, nextColumnId, dndOrderedDragColumn) => {
+    //
+    const dndOrderedDragColumnIds = dndOrderedDragColumn.map(c => c._id)
+
+    const newBoard = { ...board }
+    newBoard.columns = dndOrderedDragColumn
+    newBoard.columnOrderIds = dndOrderedDragColumnIds
+    setBoard(newBoard)
+
+    // Update card position BE after move card in the different column
+    let prevCardOrderIds = dndOrderedDragColumn.find(c => c._id === prevColumnId)?.cardOrderIds
+    // Handle move card out of the column, making column empty. (No save fake cardId into BE)
+    if (prevCardOrderIds[0].includes('placeholder-card')) prevCardOrderIds = []
+
+    await services.updateDataMoveCard({
+      currentCardId,
+      prevColumnId,
+      prevCardOrderIds,
+      nextColumnId,
+      nextCardOrderIds: dndOrderedDragColumn.find(c => c._id === nextColumnId)?.cardOrderIds
+    })
   }
 
   if (!board) {
@@ -119,6 +143,7 @@ function Board() {
         createdCard={createdCard}
         movedColumn={movedColumn}
         movedCardInSameColumn={movedCardInSameColumn}
+        movedCardInDifferentColumn={movedCardInDifferentColumn}
       />
     </Container>
   )
