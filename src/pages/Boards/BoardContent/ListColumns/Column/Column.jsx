@@ -115,12 +115,21 @@ function Column({ column, createdCard }) {
               anchorEl={anchorEl}
               open={open}
               onClose={handleClose}
+              onClick={handleClose}
               MenuListProps={{
                 'aria-labelledby': 'basic-column-title"'
               }}
             >
-              <MenuItem>
-                <ListItemIcon><AddCardIcon fontSize="small" /></ListItemIcon>
+              <MenuItem
+                onClick={handleOpenAddCard}
+                sx={{
+                  '&:hover': {
+                    'color': 'success.light',
+                    '& .add-card-icon': { 'color': 'success.light'}
+                  }
+                }}
+              >
+                <ListItemIcon><AddCardIcon className="add-card-icon" fontSize="small" /></ListItemIcon>
                 <ListItemText>Add new card</ListItemText>
               </MenuItem>
               <MenuItem>
@@ -136,8 +145,16 @@ function Column({ column, createdCard }) {
                 <ListItemText>Paste</ListItemText>
               </MenuItem>
               <Divider />
-              <MenuItem>
-                <ListItemIcon><DeleteForeverIcon fontSize="small" /></ListItemIcon>
+              <MenuItem
+                onClick={handleOpenAddCard}
+                sx={{
+                  '&:hover': {
+                    'color': 'warning.dark',
+                    '& .delete-forever-icon': { 'color': 'warning.dark' }
+                  }
+                }}
+              >
+                <ListItemIcon><DeleteForeverIcon className="delete-forever-icon" fontSize="small" /></ListItemIcon>
                 <ListItemText>Remove this column</ListItemText>
               </MenuItem>
               <MenuItem>
