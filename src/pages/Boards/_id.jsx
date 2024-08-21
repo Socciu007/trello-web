@@ -117,6 +117,14 @@ function Board() {
     })
   }
 
+  // Remove column
+  const removeColumn = async (columnId) => {
+    // Update state board
+
+    // Call api delete column
+    const res = await services.deleteColumn(columnId)
+  }
+
   if (!board) {
     return (
       <Box sx={{

@@ -9,9 +9,30 @@ import TextField from '@mui/material/TextField'
 import Checkbox from '@mui/material/Checkbox'
 import FormControlLabel from '@mui/material/FormControlLabel'
 
+const DEFAULT_OPTIONS = {
+  title: 'Are you sure?',
+  description: '',
+  content: null,
+  confirmationText: 'Ok',
+  cancellationText: 'Cancel',
+  dialogProps: {},
+  dialogActionsProps: {},
+  confirmationButtonProps: {},
+  cancellationButtonProps: {},
+  titleProps: {},
+  contentProps: {},
+  allowClose: true,
+  confirmationKeywordTextFieldProps: {},
+  hideCancelButton: false,
+  buttonOrder: ['cancel', 'confirm'],
+  acknowledgement: false,
+  acknowledgementFormControlLabelProps: {},
+  acknowledgementCheckboxProps: {}
+}
+
 const DialogConfirm = ({
   open,
-  options,
+  options = {},
   onClose,
   onCancel,
   onConfirm
@@ -36,7 +57,7 @@ const DialogConfirm = ({
     confirmationButtonProps,
     confirmationText,
     buttonOrder
-  } = options
+  } = { ...DEFAULT_OPTIONS, ...options }
 
   const [confirmationKeywordValue, setConfirmationKeywordValue] =React.useState('')
   const [isAcknowledged, setIsAcknowledged] = React.useState(false)

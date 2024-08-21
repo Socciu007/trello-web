@@ -39,6 +39,15 @@ const updateColumn = async (id, updateData) => {
   }
 }
 
+const deleteColumn = async (id) => {
+  try {
+    const response = await axios.delete(`${API_ROOT}/v1/columns/${id}`)
+    return response.data
+  } catch (error) {
+    return error.message
+  }
+}
+
 // Cards API
 const createCard = async (newCard) => {
   try {
@@ -58,11 +67,22 @@ const updateDataMoveCard = async (updateData) => {
   }
 }
 
+const deleteCard = async (id) => {
+  try {
+    const response = await axios.delete(`${API_ROOT}/v1/cards/${id}`)
+    return response.data
+  } catch (error) {
+    return error.message
+  }
+}
+
 export const services = {
   getBoard,
   createColumn,
   createCard,
   updateBoard,
   updateColumn,
-  updateDataMoveCard
+  updateDataMoveCard,
+  deleteColumn,
+  deleteCard
 }

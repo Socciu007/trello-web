@@ -23,6 +23,7 @@ import ListCards from './ListCards/ListCards'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
+import DialogConfirm from '@/components/DialogConfirm/DialogConfirm'
 
 function Column({ column, createdCard }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
@@ -40,6 +41,7 @@ function Column({ column, createdCard }) {
   const [anchorEl, setAnchorEl] = useState(null)
   const [openNewCard, setOpenNewCard] = useState(false)
   const [newCardTitle, setNewCardTitle] = useState('')
+  const [openRemoveColumn, setOpenRemoveColumn] = useState(false)
   const open = Boolean(anchorEl)
 
   // handle open/close context menu
@@ -50,11 +52,19 @@ function Column({ column, createdCard }) {
     setAnchorEl(null)
   }
 
-  // Sorting cards
-  const orderedCards = column?.cards
-
   // handle open/close add new card
   const handleOpenAddCard = () => setOpenNewCard(!openNewCard)
+
+  // handle open/close remove column
+  const handleOpenRemoveColumn = () => {
+    setAnchorEl(null)
+    setOpenRemoveColumn(!openRemoveColumn)
+  }
+
+  //
+  const handleDeleteColumn = () => {
+    console.log(column._id)
+  }
 
   // handle add new card
   const handleAddNewCard = async () => {
@@ -146,7 +156,7 @@ function Column({ column, createdCard }) {
               </MenuItem>
               <Divider />
               <MenuItem
-                onClick={handleOpenAddCard}
+                onClick={handleOpenRemoveColumn}
                 sx={{
                   '&:hover': {
                     'color': 'warning.dark',
@@ -164,8 +174,21 @@ function Column({ column, createdCard }) {
             </Menu>
           </Box>
         </Box>
+        <DialogConfirm
+          open={openRemoveColumn}
+          onClose={handleOpenRemoveColumn}
+          onCancel={handleOpenRemoveColumn}
+          onConfirm={handleDeleteColumn}
+          options={{
+            title: 'Remove column and its cards?',
+            description: 'Are you sure you want to delete this column and its cards',
+            allowClose: true,
+            confirmationText: 'Confirm',
+            buttonOrder: ['confirm', 'cancel']
+          }}
+        />
         {/* list cards */}
-        <ListCards cards={orderedCards}/>
+        <ListCards cards={column?.cards}/>
         {/* Column footer */}
         <Box sx={{
           display: 'flex',
