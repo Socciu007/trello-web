@@ -22,6 +22,13 @@ const generatePlaceholderCard = (column) => {
   }
 }
 
-const API_ROOT = 'http://localhost:6767'
+let apiRoot = ''
+if (process.env.NODE_ENV === 'development') {
+  apiRoot = 'http://localhost:6767'
+}
+if (process.env.NODE_ENV === 'production') {
+  apiRoot = 'https://trello-api-ih4q.onrender.com'
+}
+const API_ROOT = apiRoot
 
 export { capitalizeFirstLetter, mapOrder, generatePlaceholderCard, API_ROOT }
