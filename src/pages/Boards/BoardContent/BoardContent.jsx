@@ -31,7 +31,8 @@ function BoardContent({
   createdCard,
   movedColumn,
   movedCardInSameColumn,
-  movedCardInDifferentColumn
+  movedCardInDifferentColumn,
+  removeColumn
 }) {
   const [orderedColumn, setOrderColumn] = useState([])
   // const pointerSensor = useSensor(PointerSensor, {
@@ -307,6 +308,7 @@ function BoardContent({
           columns={orderedColumn}
           createdColumn={createdColumn}
           createdCard={createdCard}
+          removeColumn={removeColumn}
         />
         <DragOverlay dropAnimation={dropAnimation}>
           {(activeId && activeType === ACTIVE_TYPE.COLUMN) ? (

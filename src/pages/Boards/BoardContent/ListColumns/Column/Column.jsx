@@ -25,7 +25,7 @@ import { CSS } from '@dnd-kit/utilities'
 import { toast } from 'react-toastify'
 import DialogConfirm from '@/components/DialogConfirm/DialogConfirm'
 
-function Column({ column, createdCard }) {
+function Column({ column, createdCard, removeColumn }) {
   const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
     id: column._id,
     data: { ...column }
@@ -61,9 +61,9 @@ function Column({ column, createdCard }) {
     setOpenRemoveColumn(!openRemoveColumn)
   }
 
-  //
+  // handle confirm remove column
   const handleDeleteColumn = () => {
-    console.log(column._id)
+    removeColumn(column._id)
   }
 
   // handle add new card
@@ -180,11 +180,14 @@ function Column({ column, createdCard }) {
           onCancel={handleOpenRemoveColumn}
           onConfirm={handleDeleteColumn}
           options={{
-            title: 'Remove column and its cards?',
-            description: 'Are you sure you want to delete this column and its cards',
-            allowClose: true,
+            title: 'Remove this column?',
+            description: 'Are you sure you want to delete this column and its cards!',
+            dialogProps: { maxWidth: 'xs' },
+            allowClose: false,
             confirmationText: 'Confirm',
-            buttonOrder: ['confirm', 'cancel']
+            buttonOrder: ['cancel', 'confirm'],
+            confirmationButtonProps: { variant: 'outlined', color: 'secondary' },
+            cancellationButtonProps: { color: 'inherit' }
           }}
         />
         {/* list cards */}

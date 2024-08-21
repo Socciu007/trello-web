@@ -119,10 +119,19 @@ function Board() {
 
   // Remove column
   const removeColumn = async (columnId) => {
-    // Update state board
-
     // Call api delete column
     const res = await services.deleteColumn(columnId)
+    if (res?.statusCode === 200) {
+      toast.success(res?.message)
+      await fetchGetBoard()
+      // Update state board
+      const newBoard = { ...board }
+      newBoard.columns = newBoard.columns.filter(c => c._id !== columnId)
+      newBoard.columnOrderIds = newBoard.columnOrderIds.filter(_id => _id !== columnId)
+      setBoard(newBoard)
+    } else {
+      toast.error(res?.message)
+    }
   }
 
   if (!board) {
@@ -152,6 +161,7 @@ function Board() {
         movedColumn={movedColumn}
         movedCardInSameColumn={movedCardInSameColumn}
         movedCardInDifferentColumn={movedCardInDifferentColumn}
+        removeColumn={removeColumn}
       />
     </Container>
   )
