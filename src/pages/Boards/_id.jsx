@@ -3,7 +3,7 @@ import Container from '@mui/material/Container'
 import AppBar from '@/components/AppBar/AppBar'
 import BoardBar from './BoardBar/BoardBar'
 import BoardContent from './BoardContent/BoardContent'
-// import { mockData } from '@/apis/mock-data'
+import { mockData } from '@/apis/mock-data'
 import { useEffect, useState } from 'react'
 import { services } from '@/services/service'
 import { toast } from 'react-toastify'
@@ -135,19 +135,7 @@ function Board() {
   }
 
   if (!board) {
-    return (
-      <Box sx={{
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        height: '100vh',
-        gap: 2,
-        backgroundColor: 'primary'
-      }}>
-        <CircularProgress />
-        <Typography>Loading...</Typography>
-      </Box>
-    )
+    setBoard(mockData?.board)
   }
 
   return (
